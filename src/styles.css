@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+table.table-hover tbody tr:hover td{
+    background-color: #ff6600; 
+}
+
+h1{
+    font-size:22px;
+}

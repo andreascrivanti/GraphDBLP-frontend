@@ -1,0 +1,129 @@
+<ng4-loading-spinner [timeout]="300000"> </ng4-loading-spinner>
+<ngb-accordion [closeOthers]="true" activeIds="static-1">
+  <ngb-panel id="static-1" title="Q1 - Keywords Discovery">
+    <ng-template ngbPanelContent>
+        <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/fabiomercorio/GraphDBLP/blob/master/images/graphdblp_q1.jpeg"><img src="https://github.com/fabiomercorio/GraphDBLP/raw/master/images/graphdblp_q1.jpeg" alt="Q1: Keywords Discovery" style="max-width:100%;"></a></p>
+        <p>This allows users to identify the most prolific authors in the DBLP community for a given keyword. 
+          This requires to specify also the keyword to be used and the limit value for results. 
+          Example: <i>keyword 'multimedia' with limit 10</i> will perform this query using multimedia as keyword and collecting top 10 
+          results. The meaning of 'relevance', 'score' and 'prolificness' are discussed in the paper.
+          A list of current keywords stored in GraphDBLP (inheridted from FacetedDBLP project!) can be found 
+          <a href="https://github.com/fabiomercorio/GraphDBLP/blob/master/keywords.csv">here</a></p>  
+      <form class="mt-3">
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="q1-basic-addon1"><fa-icon [icon]="['fas','search']"></fa-icon></span>
+            </div>
+            <input name="q1Keyword" [(ngModel)]="q1Keyword" type="text" class="form-control" placeholder="Keyword" [editable]="false" [ngbTypeahead]="searchKeyword" [resultFormatter]="simpleStringFormatter" [inputFormatter]="simpleStringFormatter" aria-label="Keyword" aria-describedby="q1-basic-addon1">
+            <div *ngIf="keywordLoading" class="input-group-append">
+              <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'sync-alt']" [spin]="true"></fa-icon>
+              </span>
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="q1-basic-addon2"><fa-icon [icon]="['fas','arrows-alt-h']"></fa-icon></span>
+            </div>
+            <input name="q1Limit" [(ngModel)]="q1Limit" type="number" class="form-control" placeholder="Result Limit" aria-label="Result Limit" aria-describedby="q1-basic-addon2">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="executeQuery(1,{'key': q1Keyword.name,'limit': q1Limit})" [disabled]="!q1Keyword || !q1Limit">Run</button>
+      </form>
+
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel id="static-2" title="Q2 - Author Publication Records Comparison">
+      <ng-template ngbPanelContent>
+        <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/fabiomercorio/GraphDBLP/blob/master/images/graphdblp_q2.jpeg"><img src="https://github.com/fabiomercorio/GraphDBLP/raw/master/images/graphdblp_q2.jpeg" alt="Q2: Author Publication Records Comparison" style="max-width:100%;"></a></p>
+        <p>This query starts from the keywords describing an author’s research activity i.e., the keywords connected through 
+          the <code>has_research_topic</code> relationship. For each keyword, the most proficient author in the field is identified, 
+          and the related data are retrieved: (prolific) author name, score, relevance, and related keywords. 
+          This requires to specify also the keyword to be used, the max number of researchers to be considered for each keyword 
+          and the similarity threshold value for similar keywords. Example: Author 'John von Neumann' with result limit 3 and threshold 0.4 
+          will perform this query profiling the publication record of John von Neumann and retrieving up to 3 top researchers 
+          for each keyword appearing the in profile of John von Neumann. In addition, for each keyword, only keywords with a similarity 
+          value grater than 0.4 will be returned</p>
+        <form class="mt-3">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="q2-basic-addon1"><fa-icon [icon]="['fas','user']"></fa-icon></span>
+              </div>
+              <input name="q2AuthorName" [(ngModel)]="q2AuthorName" type="text" class="form-control" placeholder="Author" [editable]="false" [ngbTypeahead]="searchAuthor" [resultFormatter]="simpleStringFormatter" [inputFormatter]="simpleStringFormatter" aria-label="Author" aria-describedby="q2-basic-addon1">
+              <div *ngIf="authorLoading" class="input-group-append">
+                <span class="input-group-text">
+                  <fa-icon [icon]="['fas', 'sync-alt']" [spin]="true"></fa-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="q2-basic-addon2"><fa-icon [icon]="['fas','arrows-alt-h']"></fa-icon></span>
+              </div>
+              <input name="q2Limit" [(ngModel)]="q2Limit" type="number" class="form-control" placeholder="Result Limit" aria-label="Result Limit" aria-describedby="q2-basic-addon2">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="q2-basic-addon3"><fa-icon [icon]="['fas','users']"></fa-icon></span>
+              </div>
+              <input name="q2Threshold" [(ngModel)]="q2Threshold" type="number" class="form-control" placeholder="Similarity Threshold" aria-label="Similarity Threshold" aria-describedby="q2-basic-addon3">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" (click)="executeQuery(2,{'author_name': q2AuthorName.name.toLowerCase(),'limit': q2Limit, 'score_value': q2Threshold})" [disabled]="!q2AuthorName || !q2Limit || !q2Threshold">Run</button>
+        </form>
+  
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-3" title="Q3 - Local Clustering Coefficient (SNA)">
+        <ng-template ngbPanelContent>
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/fabiomercorio/GraphDBLP/blob/master/images/graphdblp_q3.jpeg"><img src="https://github.com/fabiomercorio/GraphDBLP/raw/master/images/graphdblp_q3.jpeg" alt="Q3: Author Publication Records Comparison" style="max-width:100%;"></a></p>
+            <p>Use this query to run <strong>COMPUTING LOCAL CLUSTERING COEFFICIENT ON RESEARCH COMMUNITIES</strong>. 
+            This requires to specify the venue name and a threshold value for computing the similarity.
+            Example: <i>conference 'ijcai' with threshold 10 percent</i> will perform this query computing the community 
+            starting from <i>ijcai</i> and considering venue with a similarity value with at least 10 percent.</p>  
+          <form class="mt-3">
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="q3-basic-addon1"><fa-icon [icon]="['fas','search']"></fa-icon></span>
+                </div>
+                <input name="q3Venue" [(ngModel)]="q3Venue" type="text" class="form-control" placeholder="Venue" [editable]="false" [ngbTypeahead]="searchVenue" [resultFormatter]="simpleStringFormatter" [inputFormatter]="simpleStringFormatter" aria-label="Venue" aria-describedby="q3-basic-addon1">
+                <div *ngIf="venueLoading" class="input-group-append">
+                  <span class="input-group-text">
+                    <fa-icon [icon]="['fas', 'sync-alt']" [spin]="true"></fa-icon>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="q3-basic-addon3"><fa-icon [icon]="['fas','users']"></fa-icon></span>
+                </div>
+                <input name="q3Threshold" [(ngModel)]="q3Threshold" type="number" class="form-control" placeholder="Similarity Threshold" aria-label="Similarity Threshold" aria-describedby="q3-basic-addon3">
+              </div>
+            </div>
+    
+            <button type="button" class="btn btn-primary" (click)="executeQuery(3,{'venue_name': q3Venue.name,'threshold_value': q3Threshold})" [disabled]="!q3Venue || !q3Threshold">Run</button>
+          </form>
+    
+        </ng-template>
+      </ngb-panel>
+</ngb-accordion>
+
+<app-results-view [tableData]="queryResults"></app-results-view>
