@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetaApiService {
-   private baseUrl = 'http://149.132.150.72:8081';
-  // private baseUrl = 'http://localhost:8081';
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient, private config: ConfigService) {}
 
   searchKeyword(txt: string): any {
     return this.search(txt, 'keyword');
@@ -21,7 +21,7 @@ export class MetaApiService {
 
   search(txt: string, searchType: string): any {
     return this.http.get(
-      this.baseUrl + '/graphdblp/meta/' + searchType,
+      this.config.getBackendEndpoint() + '/graphdblp/meta/' + searchType,
       {
       'params': {
         txt: txt

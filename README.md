@@ -1,27 +1,19 @@
-# GraphdblpGui
+# What is GraphDBLP-frontend?
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+**GraphDBLP-frontend** is a front-end GUI for [GraphDBLP](https://github.com/fabiomercorio/GraphDBLP) project, that wraps the python queries.
 
-## Development server
+Before running, follow the [GraphDBLP Quickstart](https://github.com/fabiomercorio/GraphDBLP#quick-start) to have Neo4j running.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Run the container
 
-## Code scaffolding
+You must have Neo4j running and accepting HTTP connections on port 7474, and the [GraphDBLP-backend](https://github.com/andreascrivanti/GraphDBLP-backend) project running on port 8081.
+To run the GraphDBLP-frontend just type:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+docker run -p 80:80 -it -d andreascrivanti/graphDBLP-frontend
 
-## Build
+## Customizing code and technicalities
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+This is an Angular 7 project created with Angular-CLI and edited using Visual Studio Code.
+In _dist_ folder there is the compiled code, that will be included into the docker container.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+You can use the configuration service (src/app/config.service.ts) to specify the backend and neo4j addresses; after those changes, you must build the application to update _dist_ folder.

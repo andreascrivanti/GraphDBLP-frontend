@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpRequest, HttpHeaders, HttpParams } from '@angular/common/http';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GraphdblpApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) { }
 
   executeQuery(queryNumber: number, params: any) {
     let queryString = '';
@@ -30,7 +31,7 @@ export class GraphdblpApiService {
 
         // params is like {'key':'database','limit':10}
         return this.http.post(
-          'http://149.132.150.72:7171/db/data/transaction/commit',
+          this.config.getNeo4jEndpoint + '/db/data/transaction/commit',
           {
           'statements': [{
             'statement' : queryString,
@@ -57,7 +58,7 @@ export class GraphdblpApiService {
 
         // params is like {"author_name":author_name.lower(), "limit":limit, "score_value":score_value}
         return this.http.post(
-          'http://149.132.150.72:7171/db/data/transaction/commit',
+          this.config.getNeo4jEndpoint + '/db/data/transaction/commit',
           {
           'statements': [{
             'statement' : queryString,
@@ -76,7 +77,7 @@ export class GraphdblpApiService {
 
       // params is like {"venue_name":venue_name.lower(), "threshold_value":threshold_value}
       return this.http.post(
-        'http://149.132.150.72:7171/db/data/transaction/commit',
+        this.config.getNeo4jEndpoint + '/db/data/transaction/commit',
         {
         'statements': [{
           'statement' : queryString,
