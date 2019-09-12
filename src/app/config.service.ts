@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
-  private BACKEND_ENDPOINT: 'http://localhost:8081';
-  private NEO4J_ENDPOINT: 'http://localhost:7171';
+  private BACKEND_ENDPOINT = 'http://localhost:8081';
+  private NEO4J_ENDPOINT = 'http://localhost:7474';
   constructor() { }
   getBackendEndpoint() {
     return this.BACKEND_ENDPOINT;

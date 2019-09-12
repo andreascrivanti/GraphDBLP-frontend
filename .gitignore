@@ -4,6 +4,9 @@
 #/dist
 /tmp
 /out-tsc
+notes.txt
+scripts/andrea*
+graphdblp-frontend.tar
 
 # dependencies
 /node_modules
